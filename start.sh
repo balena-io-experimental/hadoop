@@ -144,7 +144,13 @@ hadoop version
 
 if [ $(hostname) == "$MASTER_NODE" ]
 then
-  hdfs namenode -format
+  if [ ! -e /data/hdfs/tmp ]
+  then
+    echo "Formatting HDFS"
+    hdfs namenode -format
+  else
+    echo "HDFS data found; not formatting"
+  fi
   start-dfs.sh
   start-yarn.sh
   sleep 5
